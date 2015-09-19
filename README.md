@@ -6,7 +6,34 @@ Linux server instruction
 Ubuntu Installation
 ------------------
 
+Package way
+-----------
+
 This is easy
+
+###install aptitude
+        sudo apt-get update
+        sudo apt-get install aptitude
+        sudo aptitude update
+        sudo aptitude upgrade
+
+###install git
+        sudo aptitude install git
+
+###create developer folders
+        cd
+        mkdir Developer
+        cd Developer
+        mkdir ProgramFiles
+        mkdir Projects
+        mkdir Path
+        cd Path
+        mkdir bin include lib share man etc
+        cd
+add path in ~/.zshrc
+
+Custom way
+----------
 
 Build the Ubuntu server
 ----------------------
@@ -26,7 +53,11 @@ Build the Ubuntu server
         cd Developer
         mkdir ProgramFiles
         mkdir Projects
-        mkdir bin
+        mkdir Path
+        cd Path
+        mkdir bin include lib share man etc
+        cd
+add path in ~/.zshrc
 
 ###install [python](https://www.python.org/downloads/source/)
         sudo aptitude install libssl-dev openssl
@@ -44,23 +75,36 @@ Build the Ubuntu server
         ./configure --prefix=`pwd`/BuildFiles
         make
         make install
-        cd BuildFiles/bin
-        ln -s `pwd`/python2.7 ../../../../../bin/python2.7
-        cd ~/Developer/bin
-        sudo ln -s `pwd`/python2.7 /usr/local/bin/python2.7
+        cd BuildFiles
+        cd bin
+        ln -s `pwd`/* ~/Developer/Path/bin/
+        cd ../include
+        ln -s `pwd`/* ~/Developer/Path/include/
+        cd ../lib
+        ln -s `pwd`/* ~/Developer/Path/lib/
+        cd ../share
+        ln -s `pwd`/* ~/Developer/Path/share/
         echo "python 2.7 complete"
         cd ~/Developer/ProgramFiles/python/Python-3.4.3
         mkdir BuildFiles
         ./configure --prefix=`pwd`/BuildFiles
         make
         make install
-        cd BuildFiles/bin
-        ln -s `pwd`/python3.4 ../../../../../bin/python3.4
-        sudo ln -s `pwd`/python3.4 /usr/local/bin/python3.4
+        cd BuildFiles
+        cd bin
+        ln -s `pwd`/* ~/Developer/Path/bin/
+        # ln: failed to create symbolic link ‘/home/ubuntu/Developer/Path/bin/2to3’: File exists
+        cd ../include
+        ln -s `pwd`/* ~/Developer/Path/include/
+        cd ../lib
+        ln -s `pwd`/* ~/Developer/Path/lib/
+        cd pkgconfig
+        ln -s `pwd`/* ~/Developer/Path/lib/pkgconfig/
+        cd ..
+        cd ../share
+        cd man/man1
+        ln -s `pwd`/* ~/Developer/Path/share/man/man1/
         echo "python 3.4 complete"
-        cd ~/Developer/bin
-        ln -s python2.7 ./python
-        sudo ln -s `pwd`/python /usr/local/bin/python
         cd
 
 ###install [php](https://secure.php.net/downloads.php)
@@ -76,10 +120,18 @@ Build the Ubuntu server
         ./configure --prefix=`pwd`/BuildFiles
         make
         make install
-        cd BuildFiles/bin
-        ln -s `pwd`/php ../../../../../bin/php
-        cd ~/Developer/bin
-        sudo ln -s `pwd`/php /usr/local/bin/php
+        cd BuildFiles
+        cd bin
+        ln -s `pwd`/* ~/Developer/Path/bin/
+        cd ../etc
+        ln -s `pwd`/* ~/Developer/Path/etc/
+        cd ../include
+        ln -s `pwd`/* ~/Developer/Path/include/
+        cd ../lib
+        ln -s `pwd`/* ~/Developer/Path/lib/
+        cd ../php
+        mkdir ~/Developer/Path/php
+        ln -s `pwd`/* ~/Developer/Path/php/
         cd
 
 ###install [ruby](https://www.ruby-lang.org/en/downloads/)
@@ -94,10 +146,20 @@ Build the Ubuntu server
         ./configure --prefix=`pwd`/BuildFiles
         make
         make install
-        cd BuildFiles/bin
-        ln -s `pwd`/ruby ../../../../../bin/ruby
-        cd ~/Developer/bin
-        sudo ln -s `pwd`/ruby /usr/local/bin/ruby
+        cd BuildFiles
+        cd bin
+        ln -s `pwd`/* ~/Developer/Path/bin/
+        cd ../include
+        ln -s `pwd`/* ~/Developer/Path/include/
+        cd ../lib
+        ln -s `pwd`/* ~/Developer/Path/lib/
+        cd pkgconfig
+        ln -s `pwd`/* ~/Developer/Path/lib/pkgconfig/
+        cd ..
+        cd ../share
+        ln -s `pwd`/* ~/Developer/Path/share/
+        cd man/man1
+        ln -s `pwd`/* ~/Developer/Path/share/man/man1/
         cd
 
 ###install [perl](http://www.cpan.org/src/README.html)
@@ -113,13 +175,17 @@ Build the Ubuntu server
         make
         make test
         make install
-        cd BuildFiles/bin
-        ln -s `pwd`/perl ../../../../../bin/perl
-        cd ~/Developer/bin
-        sudo ln -s `pwd`/perl /usr/local/bin/perl
+        cd BuildFiles
+        cd bin
+        ln -s `pwd`/* ~/Developer/Path/bin/
+        cd ../lib
+        ln -s `pwd`/* ~/Developer/Path/lib/
+        cd ../man
+        ln -s `pwd`/* ~/Developer/Path/man/
         cd
 
 ###install [Lua](http://www.lua.org/download.html)
+		sudo aptitude install libreadline-dev
         cd ~/Developer/ProgramFiles
         mkdir lua
         cd lua
@@ -128,11 +194,47 @@ Build the Ubuntu server
         rm lua-5.3.1.tar.gz
         cd lua-5.3.1
         make linux test
+        mkdir BuildFiles
+add current BuildFiles path to Makefile install-top
+		make linux install
+		cd BuildFiles
+		cd bin
+        ln -s `pwd`/* ~/Developer/Path/bin/
+        cd ../include
+        ln -s `pwd`/* ~/Developer/Path/include/
+        cd ../lib
+        ln -s `pwd`/* ~/Developer/Path/lib/
+        cd ../man
+        cd man1
+        ln -s `pwd`/* ~/Developer/Path/man/man1/
+        cd ..
+        cd ../share
+        ln -s `pwd`/* ~/Developer/Path/share/
+        cd
+<!--
+###install [mercurial](http://mercurial.selenic.com)
+		cd ~/Developer/ProgramFiles
+        mkdir mercurial
+        cd mercurial
+		wget http://mercurial.selenic.com/release/mercurial-3.5.tar.gz
+		tar zxf mercurial-3.5.tar.gz
+        rm mercurial-3.5.tar.gz
+        cd mercurial-3.5
+        mkdir BuildFiles
+        make PREFIX=`pwd`/BuildFiles install
+-->
 
 ###install [vim](https://github.com/vim/vim)
+		sudo aptitude install libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev ruby-dev mercurial
         cd ~/Developer/ProgramFiles
+        mkdir vim
+        cd vim
         git clone https://github.com/vim/vim
-        cd vim/src
+        mv vim vim-7.4.843
+        cd vim-7.4.843
+        mkdir BuildFiles
+        cd src
+        ./configure --with-features=huge --enable-multibyte --enable-rubyinterp --enable-pythoninterp --with-python-config-dir=/home/ubuntu/Developer/ProgramFiles/python/Python-2.7.10/BuildFiles/lib/python2.7/config  --enable-python3interp --with-python3-config-dir=python/Python-3.4.3/BuildFiles/lib/python3.4/config-3.4m --enable-perlinterp --enable-luainterp --enable-gui=gtk2 --enable-cscope --prefix=/home/ubuntu/Developer/ProgramFiles/vim/vim-7.4.843/BuildFiles
 
 ###install zsh and [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh)
         sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" 
