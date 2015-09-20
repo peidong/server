@@ -17,8 +17,9 @@ This is easy
         sudo aptitude update
         sudo aptitude upgrade
 
-###install git
-        sudo aptitude install git
+###install ssh
+        sudo aptitude install openssh-server openssh-client
+Use ifconfig to check the ip address
 
 ###create developer folders
         cd
@@ -27,10 +28,26 @@ This is easy
         mkdir ProgramFiles
         mkdir Projects
         mkdir Path
+        mkdir Temp
         cd Path
         mkdir bin include lib share man etc
         cd
-add path in ~/.zshrc
+add path in ~/.zshrc or /etc/profile.d/system_wide_path.sh and restart
+
+###install for vmware tools
+        sudo aptitude install gcc make build-essential
+        sudo mkdir /mnt/cdrom
+        sudo mount /dev/cdrom /mnt/cdrom
+        cp -r /mnt/cdrom ~/Developer/Temp
+        sudo chmod -R 775 ~/Developer/Temp
+        cd ~/Developer/Temp
+        tar xzvf VMwareTools-x.x.x-xxxx.tar.gz
+        cd vmware-tools-distrib
+        sudo ./vmware-install.pl
+        sudo shutdown -r now
+
+###install git
+        sudo aptitude install git
 
 Custom way
 ----------
@@ -57,7 +74,7 @@ Build the Ubuntu server
         cd Path
         mkdir bin include lib share man etc
         cd
-add path in ~/.zshrc
+add path in ~/.zshrc or /etc/profile.d/system_wide_path.sh and restart
 
 ###install [python](https://www.python.org/downloads/source/)
         sudo aptitude install libssl-dev openssl
@@ -211,18 +228,6 @@ add current BuildFiles path to Makefile install-top
         cd ../share
         ln -s `pwd`/* ~/Developer/Path/share/
         cd
-<!--
-###install [mercurial](http://mercurial.selenic.com)
-		cd ~/Developer/ProgramFiles
-        mkdir mercurial
-        cd mercurial
-		wget http://mercurial.selenic.com/release/mercurial-3.5.tar.gz
-		tar zxf mercurial-3.5.tar.gz
-        rm mercurial-3.5.tar.gz
-        cd mercurial-3.5
-        mkdir BuildFiles
-        make PREFIX=`pwd`/BuildFiles install
--->
 
 ###install [vim](https://github.com/vim/vim)
 		sudo aptitude install libncurses5-dev libgnome2-dev libgnomeui-dev libgtk2.0-dev libatk1.0-dev libbonoboui2-dev libcairo2-dev libx11-dev libxpm-dev libxt-dev python-dev ruby-dev mercurial
@@ -234,7 +239,19 @@ add current BuildFiles path to Makefile install-top
         cd vim-7.4.843
         mkdir BuildFiles
         cd src
-        ./configure --with-features=huge --enable-multibyte --enable-rubyinterp --enable-pythoninterp --with-python-config-dir=/home/ubuntu/Developer/ProgramFiles/python/Python-2.7.10/BuildFiles/lib/python2.7/config  --enable-python3interp --with-python3-config-dir=python/Python-3.4.3/BuildFiles/lib/python3.4/config-3.4m --enable-perlinterp --enable-luainterp --enable-gui=gtk2 --enable-cscope --prefix=/home/ubuntu/Developer/ProgramFiles/vim/vim-7.4.843/BuildFiles
+        vi_cv_path_python=/home/ubuntu/Developer/ProgramFiles/python/Python-2.7.10/BuildFiles vi_cv_path_python3=/home/ubuntu/Developer/ProgramFiles/python/Python-3.4.3/BuildFiles ./configure --with-features=huge --enable-multibyte --enable-rubyinterp --enable-pythoninterp --enable-perlinterp --enable-luainterp --with-lua-prefix=/home/ubuntu/Developer/ProgramFiles/lua/lua-5.3.1/BuildFiles --enable-gui=gtk2 --enable-cscope --prefix=/home/ubuntu/Developer/ProgramFiles/vim/vim-7.4.843/BuildFiles
+        make
+        make install
+        cd ../BuildFiles
+        cd bin
+        ln -s `pwd`/* ~/Developer/Path/bin/
+        cd ../share
+        ln -s `pwd`/* ~/Developer/Path/share/
+        cd man
+        ln -s `pwd`/* ~/Developer/Path/share/man
+        cd man1
+        ln -s `pwd`/* ~/Developer/Path/share/man/man1
+        cd
 
 ###install zsh and [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh)
         sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)" 
@@ -242,3 +259,14 @@ add current BuildFiles path to Makefile install-top
         chsh -s /bin/zsh
         echo "In gnome-terminal, select profile preference.\n\nMake sure you're editing the 'default' profile, and go to the "Title and Command" tab.\n\nUnder "Command" there are three checkboxes: "Run command as a login shell", "Update login records when command is launched", and "Run a custom command instead of my shell".\n\nI checked all three boxes, and under "Custom command:" I put zsh.\n\nClose the terminal and restart the terminal."
 
+###[vim preference](https://github.com/peidong/vimrc)
+        sudo aptitude install exuberant-ctags ack-grep git build-essential cmake python-dev
+        cd ~
+        git clone https://github.com/peidong/vimrc.git
+        mv vimrc .vim
+        ln -s ~/.vim/vimrc ~/.vimrc
+        ln -s ~/.vim/ycm_extra_conf.py ~/.ycm_extra_conf.py
+        git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+        cd ~/.vim/bundle/YouCompleteMe
+        ./install.py --clang-completer --omnisharp-completer --gocode-completer -DPYTHON_INCLUDE_DIR=/home/ubuntu/Developer/ProgramFiles/python/Python-2.7.10/BuildFiles/include/python2.7 -DPYTHON_LIBRARY=/home/ubuntu/Developer/ProgramFiles/python/Python-2.7.10/BuildFiles/lib/libpython2.7.a
+        mkdir ~/.undo_history/
