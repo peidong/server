@@ -49,6 +49,34 @@ add path in ~/.zshrc or /etc/profile.d/system_wide_path.sh and restart
 ###install git
         sudo aptitude install git
 
+###install things
+        sudo locale-gen zh_CN.UTF-8
+        sudo aptitude install vim python-dev ruby-dev python3-dev php5-dev perl lua5.2
+
+###[vim preference](https://github.com/peidong/vimrc)
+        sudo aptitude install exuberant-ctags ack-grep git build-essential cmake python-dev
+        cd ~
+        git clone https://github.com/peidong/vimrc.git
+        mv vimrc .vim
+        ln -s ~/.vim/vimrc ~/.vimrc
+        ln -s ~/.vim/ycm_extra_conf.py ~/.ycm_extra_conf.py
+        git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+Then vim, and :PluginInstall
+
+        cd ~/.vim/bundle/YouCompleteMe
+        ./install.py --clang-completer --omnisharp-completer --gocode-completer
+        mkdir ~/.undo_history/
+
+###install zsh and [oh-my-zsh](https://github.com/robbyrussell/oh-my-zsh)
+        sudo aptitude install zsh
+        sh -c "$(curl -fsSL https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+        chsh -s /bin/zsh
+In gnome-terminal, select profile preference.
+Make sure you're editing the 'default' profile, and go to the "Title and Command" tab.
+Under "Command" there are three checkboxes: "Run command as a login shell", "Update login records when command is launched", and "Run a custom command instead of my shell".
+I checked all three boxes, and under "Custom command:" I put zsh.
+Close the terminal and restart the terminal."
+
 Custom way
 ----------
 
@@ -267,6 +295,8 @@ add current BuildFiles path to Makefile install-top
         ln -s ~/.vim/vimrc ~/.vimrc
         ln -s ~/.vim/ycm_extra_conf.py ~/.ycm_extra_conf.py
         git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+Then vim, and :PluginInstall
+
         cd ~/.vim/bundle/YouCompleteMe
-        ./install.py --clang-completer --omnisharp-completer --gocode-completer -DPYTHON_INCLUDE_DIR=/home/ubuntu/Developer/ProgramFiles/python/Python-2.7.10/BuildFiles/include/python2.7 -DPYTHON_LIBRARY=/home/ubuntu/Developer/ProgramFiles/python/Python-2.7.10/BuildFiles/lib/libpython2.7.a
+        ./install.py --clang-completer --omnisharp-completer --gocode-completer
         mkdir ~/.undo_history/
